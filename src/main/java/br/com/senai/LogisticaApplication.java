@@ -1,5 +1,6 @@
 package br.com.senai;
 
+import br.com.senai.api.controller.PessoaController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
