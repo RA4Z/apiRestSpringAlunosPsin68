@@ -1,7 +1,7 @@
 package br.com.senai.api.controller;
 
-import br.com.senai.domain.model.Pessoa;
-import br.com.senai.domain.repository.PessoaRepository;
+import br.com.senai.domain.model.Consultor;
+import br.com.senai.domain.repository.ConsultorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,61 +20,61 @@ public class PessoaController {
 //    private EntityManager entityManager;
 
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private ConsultorRepository consultorRepository;
 
     @GetMapping()
-    public List<Pessoa> listar() {
+    public List<Consultor> listar() {
 //        return entityManager.createQuery("FROM Pessoa", Pessoa.class).getResultList();
-        return pessoaRepository.findAll();
+        return consultorRepository.findAll();
     }
     @GetMapping("/nome/{pessoaNome}")
-    public List<Pessoa> listarPorNome(@PathVariable String pessoaNome) {
-        return pessoaRepository.findByNome(pessoaNome);
+    public List<Consultor> listarPorNome(@PathVariable String pessoaNome) {
+        return consultorRepository.findByNome(pessoaNome);
     }
     @GetMapping("/nome/containing/{nomeContaining}")
-    public List<Pessoa> listarNomeContaining(@PathVariable String nomeContaining) {
-        return pessoaRepository.findByNomeContaining(nomeContaining);
+    public List<Consultor> listarNomeContaining(@PathVariable String nomeContaining) {
+        return consultorRepository.findByNomeContaining(nomeContaining);
     }
 
     @GetMapping("{pessoaId}")
-    public ResponseEntity<Pessoa> buscar(@PathVariable Long pessoaId) {
+    public ResponseEntity<Consultor> buscar(@PathVariable Long pessoaId) {
 //        Optional<Pessoa> pessoa = pessoaRepository.findById(pessoaId);
 //        if(pessoa.isPresent()) {
 //            return ResponseEntity.ok(pessoa.get());
 //        }
 //        return ResponseEntity.notFound().build();
-        return pessoaRepository.findById(pessoaId)
-                .map(pessoa -> ResponseEntity.ok(pessoa))
+        return consultorRepository.findById(pessoaId)
+                .map(consultor -> ResponseEntity.ok(consultor))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Pessoa cadastrar(@Valid @RequestBody Pessoa pessoa) {
-        return pessoaRepository.save(pessoa);
+    public Consultor cadastrar(@Valid @RequestBody Consultor consultor) {
+        return consultorRepository.save(consultor);
     }
 
     @PutMapping("/{pessoaId}")
-    public ResponseEntity<Pessoa> editar(
+    public ResponseEntity<Consultor> editar(
             @Valid @PathVariable Long pessoaId,
-            @RequestBody Pessoa pessoa
+            @RequestBody Consultor consultor
     ){
-        if(!pessoaRepository.existsById(pessoaId)) {
+        if(!consultorRepository.existsById(pessoaId)) {
             return ResponseEntity.notFound().build();
         }
 
-        pessoa.setId(pessoaId);
-        pessoa = pessoaRepository.save(pessoa);
+        consultor.setId(pessoaId);
+        consultor = consultorRepository.save(consultor);
 
-        return ResponseEntity.ok(pessoa);
+        return ResponseEntity.ok(consultor);
     }
 
     @DeleteMapping("/{pessoaId}")
-    public ResponseEntity<Pessoa> remover(@PathVariable Long pessoaId){
+    public ResponseEntity<Consultor> remover(@PathVariable Long pessoaId){
 
-        if(!pessoaRepository.existsById(pessoaId)) {
+        if(!consultorRepository.existsById(pessoaId)) {
             return ResponseEntity.notFound().build();
         }
-        pessoaRepository.deleteById(pessoaId);
+        consultorRepository.deleteById(pessoaId);
 
         return ResponseEntity.noContent().build();
     }
