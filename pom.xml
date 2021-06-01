@@ -11,8 +11,8 @@
 	<groupId>br.com.senai</groupId>
 	<artifactId>Logistica</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Logistica</name>
-	<description>Projeto Logística em Spring</description>
+	<name>Consultor</name>
+	<description>Projeto Consultor em Spring</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

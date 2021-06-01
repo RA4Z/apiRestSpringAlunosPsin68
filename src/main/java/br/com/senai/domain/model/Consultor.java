@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
-public class Pessoa {
+public class Consultor {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)

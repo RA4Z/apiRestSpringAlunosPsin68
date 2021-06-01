@@ -13,8 +13,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/pessoas")
-public class PessoaController {
+@RequestMapping("/consultor")
+public class ConsultorController {
 
 //    @PersistenceContext
 //    private EntityManager entityManager;
@@ -27,7 +27,7 @@ public class PessoaController {
 //        return entityManager.createQuery("FROM Pessoa", Pessoa.class).getResultList();
         return consultorRepository.findAll();
     }
-    @GetMapping("/nome/{pessoaNome}")
+    @GetMapping("/nome/{consultorNome}")
     public List<Consultor> listarPorNome(@PathVariable String pessoaNome) {
         return consultorRepository.findByNome(pessoaNome);
     }
@@ -36,14 +36,14 @@ public class PessoaController {
         return consultorRepository.findByNomeContaining(nomeContaining);
     }
 
-    @GetMapping("{pessoaId}")
-    public ResponseEntity<Consultor> buscar(@PathVariable Long pessoaId) {
+    @GetMapping("{consultorId}")
+    public ResponseEntity<Consultor> buscar(@PathVariable Long consultorId) {
 //        Optional<Pessoa> pessoa = pessoaRepository.findById(pessoaId);
 //        if(pessoa.isPresent()) {
 //            return ResponseEntity.ok(pessoa.get());
 //        }
 //        return ResponseEntity.notFound().build();
-        return consultorRepository.findById(pessoaId)
+        return consultorRepository.findById(consultorId)
                 .map(consultor -> ResponseEntity.ok(consultor))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -53,28 +53,28 @@ public class PessoaController {
         return consultorRepository.save(consultor);
     }
 
-    @PutMapping("/{pessoaId}")
+    @PutMapping("/{consultorId}")
     public ResponseEntity<Consultor> editar(
-            @Valid @PathVariable Long pessoaId,
+            @Valid @PathVariable Long consultorId,
             @RequestBody Consultor consultor
     ){
-        if(!consultorRepository.existsById(pessoaId)) {
+        if(!consultorRepository.existsById(consultorId)) {
             return ResponseEntity.notFound().build();
         }
 
-        consultor.setId(pessoaId);
+        consultor.setId(consultorId);
         consultor = consultorRepository.save(consultor);
 
         return ResponseEntity.ok(consultor);
     }
 
-    @DeleteMapping("/{pessoaId}")
-    public ResponseEntity<Consultor> remover(@PathVariable Long pessoaId){
+    @DeleteMapping("/{consultorId}")
+    public ResponseEntity<Consultor> remover(@PathVariable Long consultorId){
 
-        if(!consultorRepository.existsById(pessoaId)) {
+        if(!consultorRepository.existsById(consultorId)) {
             return ResponseEntity.notFound().build();
         }
-        consultorRepository.deleteById(pessoaId);
+        consultorRepository.deleteById(consultorId);
 
         return ResponseEntity.noContent().build();
     }
