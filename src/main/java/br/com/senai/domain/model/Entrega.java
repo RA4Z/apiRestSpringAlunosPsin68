@@ -2,8 +2,10 @@ package br.com.senai.domain.model;
 
 import br.com.senai.domain.service.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -13,6 +15,7 @@ import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @Entity
@@ -20,31 +23,31 @@ import java.time.LocalDateTime;
 public class Entrega {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Valid
     @ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
     @NotNull
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
+    Pessoa pessoa;
 
     @Valid
     @NotNull
     @Embedded
-    private Destinatario destinatario;
+    Destinatario destinatario;
 
     @Valid
     @NotNull
-    private BigDecimal taxa;
+    BigDecimal taxa;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private StatusEntrega status;
+    StatusEntrega status;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataPedido;
+    LocalDateTime dataPedido;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataFinalizacao;
+    LocalDateTime dataFinalizacao;
 }
