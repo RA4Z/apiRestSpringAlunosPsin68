@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -37,7 +39,6 @@ public class PessoaService {
         if(emailvalidation) {
             throw new NegocioException("Já existe uma pessoa com este e-mail cadastrado.");
         }
-
         return pessoaRepository.save(pessoa);
     }
 

@@ -1,11 +1,10 @@
 package br.com.senai.domain.model;
 
+import br.com.senai.domain.exception.NegocioException;
 import br.com.senai.domain.service.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -14,8 +13,9 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
 @Entity
@@ -23,31 +23,63 @@ import java.time.LocalDateTime;
 public class Entrega {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Valid
     @ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
     @NotNull
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
-    Pessoa pessoa;
+    private Pessoa pessoa;
 
     @Valid
     @NotNull
     @Embedded
-    Destinatario destinatario;
+    private Destinatario destinatario;
 
     @Valid
     @NotNull
-    BigDecimal taxa;
+    private BigDecimal taxa;
+
+    @OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
+    private List<Ocorrencia> ocorrencias = new ArrayList<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    StatusEntrega status;
+    private StatusEntrega status;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime dataPedido;
+    private LocalDateTime dataPedido;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime dataFinalizacao;
+    private LocalDateTime dataFinalizacao;
+
+    public void finalizar() {
+        if(naoPodeSerFinalizada()){
+            throw new NegocioException("Entrega não pode ser finalizada.");
+        }
+
+        setStatus(StatusEntrega.FINALIZADA);
+        setDataFinalizacao(LocalDateTime.now());
+    }
+
+    public boolean podeSerFinalizada() {
+        return StatusEntrega.PENDENTE.equals(getStatus());
+    }
+
+    public boolean naoPodeSerFinalizada() {
+        return !podeSerFinalizada();
+    }
+
+    public Ocorrencia adicionarOcorrencia(String descricao){
+        Ocorrencia ocorrencia = new Ocorrencia();
+
+        ocorrencia.setDescricao(descricao);
+        ocorrencia.setDataRegistro(LocalDateTime.now());
+        ocorrencia.setEntrega(this);
+
+        this.getOcorrencias().add(ocorrencia);
+
+        return ocorrencia;
+    }
 }

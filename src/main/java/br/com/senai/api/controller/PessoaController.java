@@ -30,12 +30,10 @@ public class PessoaController {
     public List<Pessoa> listar() {
         return pessoaService.listar();
     }
-
     @GetMapping("/nome/{pessoaNome}")
     public List<Pessoa> listarPorNome(@PathVariable String pessoaNome) {
         return pessoaService.listarPorNome(pessoaNome);
     }
-
     @GetMapping("/nome/containing/{nomeContaining}")
     public List<Pessoa> listarNomeContaining(@PathVariable String nomeContaining) {
         return pessoaService.listarNomeContaining(nomeContaining);
