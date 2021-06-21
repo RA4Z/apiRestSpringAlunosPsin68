@@ -1,5 +1,6 @@
 package br.com.senai.domain.repository;
 
+import br.com.senai.api.model.PessoaModel;
 import br.com.senai.domain.model.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,5 +1,6 @@
 package br.com.senai.domain.model;
 
+import br.com.senai.api.model.PessoaModel;
 import br.com.senai.domain.service.ValidationGroups;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import javax.validation.groups.Default;
 @Getter
 @Setter
 @Entity
-public class Pessoa {
+public class Pessoa{
 
     @NotNull(groups = ValidationGroups.ClienteId.class)
     @Id

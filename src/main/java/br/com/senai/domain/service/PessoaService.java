@@ -1,5 +1,8 @@
 package br.com.senai.domain.service;
 
+
+import br.com.senai.api.assembler.PessoaAssembler;
+import br.com.senai.api.model.PessoaModel;
 import br.com.senai.domain.exception.NegocioException;
 import br.com.senai.domain.model.Pessoa;
 import br.com.senai.domain.repository.PessoaRepository;
@@ -18,44 +21,48 @@ import java.util.List;
 public class PessoaService {
 
     private PessoaRepository pessoaRepository;
-
-    public List<Pessoa> listar() {
-        return pessoaRepository.findAll();
-    }
-
-    public List<Pessoa> listarPorNome(@PathVariable String pessoaNome) {
-        return pessoaRepository.findByNome(pessoaNome);
-    }
-
-    public List<Pessoa> listarNomeContaining(@PathVariable String nomeContaining) {
-        return pessoaRepository.findByNomeContaining(nomeContaining);
-    }
+    private PessoaAssembler pessoaAssembler;
 
     @Transactional
     public Pessoa cadastrar(Pessoa pessoa){
-        boolean emailvalidation = pessoaRepository.findByEmail(pessoa.getEmail())
-                .isPresent();
+        boolean emailValidation = pessoaRepository.findByEmail(pessoa.getEmail()).isPresent();
 
-        if(emailvalidation) {
-            throw new NegocioException("Já existe uma pessoa com este e-mail cadastrado.");
+        if (emailValidation){
+            throw new NegocioException("Ja existe uma pessoa com esse e-mail cadastrado");
         }
+
         return pessoaRepository.save(pessoa);
     }
 
     @Transactional
-    public ResponseEntity<Object> excluir(Long pessoaId) {
+    public ResponseEntity<Object> excluir(Long pessoaId){
 
-        if(!pessoaRepository.existsById(pessoaId)) {
-            throw new NegocioException("Não existe ninguém com esse ID!");
+        if(!pessoaRepository.existsById(pessoaId)){
+            return ResponseEntity.notFound().build();
         }
+
         pessoaRepository.deleteById(pessoaId);
-        return null;
+        return ResponseEntity.ok(pessoaId);
     }
 
-    @Transactional
-    public ResponseEntity<Pessoa> editar( Long pessoaId, Pessoa pessoa){
-        if(!pessoaRepository.existsById(pessoaId)) {
-            throw new NegocioException("Não existe ninguém com esse ID!");
+    public List<PessoaModel> listar(){
+        return pessoaAssembler.toCollectionModel(pessoaRepository.findAll());
+    }
+
+    public Pessoa buscar(Long pessoaId){
+        return pessoaRepository.findById(pessoaId).orElseThrow(() -> new NegocioException("Pessoa não encontrada."));
+    }
+
+    public ResponseEntity<PessoaModel> pesquisa(Long pessoaId){
+        return pessoaRepository.findById(pessoaId).map(entrega ->
+                ResponseEntity.ok(pessoaAssembler.toModel(entrega))
+        ).orElse(ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Pessoa> editar(@Valid @PathVariable Long pessoaId, @RequestBody Pessoa pessoa) {
+
+        if(!pessoaRepository.existsById(pessoaId)){
+            return ResponseEntity.notFound().build();
         }
         pessoa.setId(pessoaId);
         pessoa = pessoaRepository.save(pessoa);
@@ -63,8 +70,10 @@ public class PessoaService {
         return ResponseEntity.ok(pessoa);
     }
 
-    public Pessoa buscar(Long pessoaId) {
-        return pessoaRepository.findById(pessoaId)
-                .orElseThrow(() -> new NegocioException("Pessoa não encontrada."));
+    public List<PessoaModel> listarPorNome(String pessoaNome){
+        return pessoaAssembler.toCollectionModel(pessoaRepository.findByNome(pessoaNome));
+    }
+    public List<PessoaModel> listarNomeContaining(String nomeContaining){
+        return pessoaAssembler.toCollectionModel(pessoaRepository.findByNomeContaining(nomeContaining));
     }
 }
