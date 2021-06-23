@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class EntregaModel {
+public class EntregaDTO {
 
     Long id;
-    PessoaModel pessoa;
-    DestinatarioModel destinatario;
+    PessoaDTO pessoa;
+    DestinatarioDTO destinatario;
     BigDecimal taxa;
     LocalDateTime dataPedido;
     LocalDateTime dataFinalizacao;

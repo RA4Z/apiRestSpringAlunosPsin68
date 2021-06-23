@@ -1,7 +1,7 @@
 package br.com.senai.api.assembler;
 
 import br.com.senai.domain.model.Ocorrencia;
-import br.com.senai.domain.model.OcorrenciaModel;
+import br.com.senai.api.model.OcorrenciaDTO;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,11 @@ public class OcorrenciaAssembler {
 
     private ModelMapper modelMapper;
 
-    public OcorrenciaModel toModel(Ocorrencia ocorrencia){
-        return modelMapper.map(ocorrencia, OcorrenciaModel.class);
+    public OcorrenciaDTO toModel(Ocorrencia ocorrencia){
+        return modelMapper.map(ocorrencia, OcorrenciaDTO.class);
     }
 
-    public List<OcorrenciaModel> toCollectionModel(List<Ocorrencia> ocorrencias){
+    public List<OcorrenciaDTO> toCollectionModel(List<Ocorrencia> ocorrencias){
         return ocorrencias.stream()
                 .map((this::toModel))
                         .collect(Collectors.toList());

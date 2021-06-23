@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class DestinatarioInput {
+public class DestinatarioInputDTO {
 
     @NotBlank
     String nome;

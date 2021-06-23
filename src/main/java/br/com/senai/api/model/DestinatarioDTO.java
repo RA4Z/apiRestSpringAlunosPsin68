@@ -1,24 +1,18 @@
-package br.com.senai.api.model.input;
+package br.com.senai.api.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import javax.validation.constraints.NotNull;
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class PessoaInput {
+public class DestinatarioDTO {
 
-    @NotNull
     String nome;
-
-    @NotNull
-    String email;
-
-    @NotNull
-    String telefone;
-
+    String logradouro;
+    String numero;
+    String complemento;
+    String bairro;
 }

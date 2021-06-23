@@ -1,6 +1,5 @@
 package br.com.senai.domain.repository;
 
-import br.com.senai.api.model.PessoaModel;
 import br.com.senai.domain.model.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +14,5 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
     List<Pessoa> findByNomeContaining(String nome);
 
-    Optional<Pessoa> findByEmail(String email);
+//    Optional<Pessoa> findByEmail(String email);
 }

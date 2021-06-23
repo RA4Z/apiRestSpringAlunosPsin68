@@ -1,4 +1,4 @@
-package br.com.senai.domain.model;
+package br.com.senai.api.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OcorrenciaModel {
+public class OcorrenciaDTO {
 
     private Long id;
     private String descricao;

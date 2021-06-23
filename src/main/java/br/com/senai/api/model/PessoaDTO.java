@@ -10,12 +10,9 @@ import javax.validation.constraints.NotNull;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-public class PessoaModel {
+public class PessoaDTO {
 
-    @NotNull
-    Long id;
-
-    String nomePessoa;
-    String emailPessoa;
+    String nome;
+    UsuarioDTO usuario;
     String telefone;
 }

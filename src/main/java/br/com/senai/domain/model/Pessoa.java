@@ -1,6 +1,5 @@
 package br.com.senai.domain.model;
 
-import br.com.senai.api.model.PessoaModel;
 import br.com.senai.domain.service.ValidationGroups;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +8,9 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import static lombok.AccessLevel.PRIVATE;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,10 +29,14 @@ public class Pessoa{
     @Size(max = 60)
     String nome;
 
-    @NotBlank
-    @Email
-    @Size(min = 5)
-    String email;
+//    @NotBlank
+//    @Email
+//    @Size(min = 5)
+//    String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    Usuario usuario;
 
     @NotBlank
     @Size(min = 12)
