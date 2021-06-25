@@ -21,7 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_LIST = {
             "/",
             "/pessoas",
-            "/pessoas/{pessoaId}"
+            "/pessoas/{pessoaId}",
+            "/pessoas/nome/{pessoaNome}",
+            "/pessoas/nome/containing/{pessoaNome}",
+            "/pessoas/role/{roleId}"
     };
 
     @Override
