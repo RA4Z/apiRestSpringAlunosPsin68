@@ -3,7 +3,9 @@ package br.com.senai.api.controller;
 import br.com.senai.api.assembler.RoleAssembler;
 import br.com.senai.api.model.PessoaDTO;
 import br.com.senai.api.model.RoleDTO;
+import br.com.senai.api.model.input.PessoaInputDTO;
 import br.com.senai.api.model.input.RoleInputDTO;
+import br.com.senai.domain.model.Pessoa;
 import br.com.senai.domain.model.Role;
 import br.com.senai.domain.service.RoleService;
 import lombok.AllArgsConstructor;
@@ -41,5 +43,13 @@ public class RoleController {
         roleService.excluir(roleId);
 
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/{roleId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RoleDTO editar(@Valid @RequestBody RoleInputDTO roleInputDTO, @PathVariable String roleId){
+        Role newRole = roleAssembler.toEntity(roleInputDTO);
+        ResponseEntity<Role> roleResponseEntity = roleService.editar(roleId, newRole);
+
+        return roleAssembler.toModel(roleResponseEntity.getBody());
     }
 }
