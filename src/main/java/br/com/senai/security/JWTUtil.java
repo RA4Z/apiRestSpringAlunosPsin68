@@ -47,7 +47,7 @@ public class JWTUtil {
         return Jwts.builder().setClaims(claims).setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Auth.expiresIn))
-                .signWith(SignatureAlgorithm.ES256, Auth.secret).compact();
+                .signWith(SignatureAlgorithm.HS256, Auth.secret).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){
