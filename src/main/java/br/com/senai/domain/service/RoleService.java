@@ -2,7 +2,6 @@ package br.com.senai.domain.service;
 
 import br.com.senai.api.assembler.RoleAssembler;
 import br.com.senai.api.model.RoleDTO;
-import br.com.senai.domain.model.Pessoa;
 import br.com.senai.domain.model.Role;
 import br.com.senai.domain.repository.RoleRepository;
 import lombok.AllArgsConstructor;
@@ -46,8 +45,8 @@ public class RoleService {
         if(!roleRepository.existsById(roleId)){
             return ResponseEntity.notFound().build();
         }
-        roleRepository.deleteById(roleId);
-        role = roleRepository.save(role);
+        excluir(roleId);
+        cadastrar(role);
 
         return ResponseEntity.ok(role);
     }

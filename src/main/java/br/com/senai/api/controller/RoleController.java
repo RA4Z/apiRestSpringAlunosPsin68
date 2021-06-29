@@ -38,7 +38,7 @@ public class RoleController {
         return roleAssembler.toModel(role);
     }
     @DeleteMapping("/{roleId}")
-    public ResponseEntity<PessoaDTO> remover(@Valid @PathVariable String roleId) {
+    public ResponseEntity<RoleDTO> remover(@Valid @PathVariable String roleId) {
 
         roleService.excluir(roleId);
 
